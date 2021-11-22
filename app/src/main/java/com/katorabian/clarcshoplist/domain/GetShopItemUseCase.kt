@@ -1,8 +1,8 @@
 package com.katorabian.clarcshoplist.domain
 
-class GetShopItemUseCase {
+class GetShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
     fun getShopItem(id: Int): ShopItem {
-        TODO()
+        return shopListRepository.getShopItem(id)
     }
 }

@@ -1,8 +1,8 @@
 package com.katorabian.clarcshoplist.domain
 
-class EditShopItemUseCase {
+class EditShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
     fun editShopItem(item: ShopItem) {
-        TODO()
+        shopListRepository.editShopItem(item)
     }
 }

@@ -1,8 +1,8 @@
 package com.katorabian.clarcshoplist.domain
 
-class RemoveShopItemUseCase {
+class RemoveShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
     fun removeShopItem(item: ShopItem) {
-        TODO()
+        shopListRepository.removeShopItem(item)
     }
 }
