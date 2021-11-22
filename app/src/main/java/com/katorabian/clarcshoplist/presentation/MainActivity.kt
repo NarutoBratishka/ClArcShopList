@@ -1,7 +1,8 @@
-package com.katorabian.clarcshoplist
+package com.katorabian.clarcshoplist.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.katorabian.clarcshoplist.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
