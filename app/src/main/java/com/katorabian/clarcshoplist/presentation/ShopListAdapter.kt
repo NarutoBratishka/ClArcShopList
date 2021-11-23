@@ -5,19 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.katorabian.clarcshoplist.R
 import com.katorabian.clarcshoplist.domain.ShopItem
 import java.lang.RuntimeException
 
-class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
-    var shopList = listOf<ShopItem>()
-        set(value) {
-            val callback = ShopListDiffCallback(field, value)
-            val diffResult = DiffUtil.calculateDiff(callback)
-            diffResult.dispatchUpdatesTo(this)
-            field = value
-        }
+class ShopListAdapter: ListAdapter<ShopItem, ShopListAdapter.ShopItemViewHolder>(ShopItemDiffCallback()) {
 
     var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
     var onShopItemClickListener: ((ShopItem) -> Unit)? = null
@@ -37,7 +31,7 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
     }
 
     override fun onBindViewHolder(viewHolder: ShopItemViewHolder, position: Int) {
-        val shopItem = shopList[position]
+        val shopItem = getItem(position)
         viewHolder.view.apply {
             setOnLongClickListener {
                 onShopItemLongClickListener?.invoke(shopItem)
@@ -53,14 +47,10 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
 
     override fun getItemViewType(position: Int): Int {
         val resultType =
-            if (shopList[position].enabled) ItemViewType.ENABLED
+            if (getItem(position).enabled) ItemViewType.ENABLED
             else ItemViewType.DISABLED
 
         return resultType.ordinal
-    }
-
-    override fun getItemCount(): Int {
-        return shopList.size
     }
 
     class ShopItemViewHolder(val view: View): RecyclerView.ViewHolder(view) {
