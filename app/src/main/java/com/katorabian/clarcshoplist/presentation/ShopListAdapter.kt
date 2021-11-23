@@ -58,8 +58,12 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
         val tvCount = view.findViewById<TextView>(R.id.tv_count)
     }
 
-    internal enum class ItemViewType(i: Int) {
+    enum class ItemViewType(i: Int) {
         ENABLED(0),
         DISABLED(1)
+    }
+
+    companion object {
+        const val MAX_POOL_SIZE = 5
     }
 }
