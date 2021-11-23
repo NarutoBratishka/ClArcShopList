@@ -16,9 +16,9 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopList.observe(this) {
-            Log.d("MainActivity", it.toString())
-        }
+            Log.d("qwe: MainAct", it.toString())
 
-        viewModel.getShopList()
+            it.getOrNull(0)?.let { viewModel.removeShopItem(it) }
+        }
     }
 }
