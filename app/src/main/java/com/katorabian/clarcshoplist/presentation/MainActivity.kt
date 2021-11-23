@@ -6,11 +6,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.katorabian.clarcshoplist.R
+import com.katorabian.clarcshoplist.domain.ShopItem
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
-    private lateinit var adapter: ShopListAdapter
+    private lateinit var shopListAdapter: ShopListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,15 +20,15 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopList.observe(this) {
-            adapter.shopList = it
+            shopListAdapter.shopList = it
         }
     }
 
     private fun setupRecyclerView() {
         val rvShopList = findViewById<RecyclerView>(R.id.rv_shop_list)
         with (rvShopList) {
-            this@MainActivity.adapter = ShopListAdapter()
-            adapter = this@MainActivity.adapter
+            shopListAdapter = ShopListAdapter()
+            adapter = shopListAdapter
             recycledViewPool.setMaxRecycledViews(
                 ShopListAdapter.ItemViewType.ENABLED.ordinal,
                 ShopListAdapter.MAX_POOL_SIZE
@@ -36,6 +37,16 @@ class MainActivity : AppCompatActivity() {
                 ShopListAdapter.ItemViewType.DISABLED.ordinal,
                 ShopListAdapter.MAX_POOL_SIZE
             )
+        }
+
+        shopListAdapter.apply {
+            onShopItemLongClickListener = {
+                viewModel.changeEnabledState(it)
+            }
+
+            onShopItemClickListener = {
+                Log.d("qwe: shopItem.onClick", "$it")
+            }
         }
     }
 }

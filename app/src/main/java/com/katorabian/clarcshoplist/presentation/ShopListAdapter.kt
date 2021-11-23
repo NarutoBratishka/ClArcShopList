@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.katorabian.clarcshoplist.R
 import com.katorabian.clarcshoplist.domain.ShopItem
@@ -16,6 +15,9 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
             field = value
             notifyDataSetChanged()
         }
+
+    var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
+    var onShopItemClickListener: ((ShopItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
         val resultView = when (viewType) {
@@ -33,8 +35,13 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
 
     override fun onBindViewHolder(viewHolder: ShopItemViewHolder, position: Int) {
         val shopItem = shopList[position]
-        viewHolder.view.setOnLongClickListener {
-            true
+        viewHolder.view.apply {
+            setOnLongClickListener {
+                onShopItemLongClickListener?.invoke(shopItem)
+                true
+            }
+
+            setOnClickListener { onShopItemClickListener?.invoke(shopItem) }
         }
 
         viewHolder.tvName.text = shopItem.name
