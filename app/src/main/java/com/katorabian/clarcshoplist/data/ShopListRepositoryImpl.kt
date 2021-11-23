@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.katorabian.clarcshoplist.domain.ShopItem
 import com.katorabian.clarcshoplist.domain.ShopListRepository
 import java.lang.RuntimeException
+import kotlin.random.Random
 
 object ShopListRepositoryImpl: ShopListRepository {
 
@@ -13,9 +14,9 @@ object ShopListRepositoryImpl: ShopListRepository {
     private var autoIncrementId = 0
 
     init {
-        for (i in 0 until 10) {
+        for (i in 0 until 1000) {
             addShopItem(
-                ShopItem("Name $i", i, true)
+                ShopItem("Name $i", i, Random.nextBoolean())
             )
         }
     }
