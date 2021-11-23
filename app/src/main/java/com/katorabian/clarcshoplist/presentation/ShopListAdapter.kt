@@ -1,17 +1,12 @@
 package com.katorabian.clarcshoplist.presentation
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.katorabian.clarcshoplist.R
 import com.katorabian.clarcshoplist.domain.ShopItem
-import java.lang.RuntimeException
 
-class ShopListAdapter: ListAdapter<ShopItem, ShopListAdapter.ShopItemViewHolder>(ShopItemDiffCallback()) {
+class ShopListAdapter: ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCallback()) {
 
     var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
     var onShopItemClickListener: ((ShopItem) -> Unit)? = null
@@ -53,17 +48,12 @@ class ShopListAdapter: ListAdapter<ShopItem, ShopListAdapter.ShopItemViewHolder>
         return resultType.ordinal
     }
 
-    class ShopItemViewHolder(val view: View): RecyclerView.ViewHolder(view) {
-        val tvName = view.findViewById<TextView>(R.id.tv_name)
-        val tvCount = view.findViewById<TextView>(R.id.tv_count)
-    }
-
     enum class ItemViewType(i: Int) {
         ENABLED(0),
         DISABLED(1)
     }
 
     companion object {
-        const val MAX_POOL_SIZE = 5
+        const val MAX_POOL_SIZE = 30
     }
 }
