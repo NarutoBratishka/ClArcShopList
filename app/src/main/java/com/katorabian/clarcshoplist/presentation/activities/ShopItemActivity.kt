@@ -1,4 +1,4 @@
-package com.katorabian.clarcshoplist.presentation
+package com.katorabian.clarcshoplist.presentation.activities
 
 import android.content.Context
 import android.content.Intent

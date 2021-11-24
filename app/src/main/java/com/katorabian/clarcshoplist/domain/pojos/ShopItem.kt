@@ -1,4 +1,4 @@
-package com.katorabian.clarcshoplist.domain
+package com.katorabian.clarcshoplist.domain.pojos
 
 data class ShopItem(
     val name: String,

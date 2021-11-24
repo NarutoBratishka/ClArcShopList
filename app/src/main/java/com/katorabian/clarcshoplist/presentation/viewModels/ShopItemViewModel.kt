@@ -1,13 +1,13 @@
-package com.katorabian.clarcshoplist.presentation
+package com.katorabian.clarcshoplist.presentation.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.katorabian.clarcshoplist.data.ShopListRepositoryImpl
-import com.katorabian.clarcshoplist.domain.AddShopItemUseCase
-import com.katorabian.clarcshoplist.domain.EditShopItemUseCase
-import com.katorabian.clarcshoplist.domain.GetShopItemUseCase
-import com.katorabian.clarcshoplist.domain.ShopItem
+import com.katorabian.clarcshoplist.domain.interactors.AddShopItemUseCase
+import com.katorabian.clarcshoplist.domain.interactors.EditShopItemUseCase
+import com.katorabian.clarcshoplist.domain.interactors.GetShopItemUseCase
+import com.katorabian.clarcshoplist.domain.pojos.ShopItem
 
 class ShopItemViewModel: ViewModel() {
 

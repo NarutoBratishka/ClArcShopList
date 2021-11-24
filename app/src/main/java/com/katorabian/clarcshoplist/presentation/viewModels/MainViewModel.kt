@@ -1,11 +1,11 @@
-package com.katorabian.clarcshoplist.presentation
+package com.katorabian.clarcshoplist.presentation.viewModels
 
 import androidx.lifecycle.ViewModel
 import com.katorabian.clarcshoplist.data.ShopListRepositoryImpl
-import com.katorabian.clarcshoplist.domain.EditShopItemUseCase
-import com.katorabian.clarcshoplist.domain.GetShopListUseCase
-import com.katorabian.clarcshoplist.domain.RemoveShopItemUseCase
-import com.katorabian.clarcshoplist.domain.ShopItem
+import com.katorabian.clarcshoplist.domain.interactors.EditShopItemUseCase
+import com.katorabian.clarcshoplist.domain.interactors.GetShopListUseCase
+import com.katorabian.clarcshoplist.domain.interactors.RemoveShopItemUseCase
+import com.katorabian.clarcshoplist.domain.pojos.ShopItem
 
 class MainViewModel: ViewModel() {
 

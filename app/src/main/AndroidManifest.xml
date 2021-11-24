@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ClArcShopList">
-        <activity android:name=".presentation.ShopItemActivity"
+        <activity android:name=".presentation.activities.ShopItemActivity"
             android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".presentation.MainActivity">
+        <activity android:name=".presentation.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

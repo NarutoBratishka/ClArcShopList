@@ -1,6 +1,7 @@
-package com.katorabian.clarcshoplist.domain
+package com.katorabian.clarcshoplist.domain.interfaces
 
 import androidx.lifecycle.LiveData
+import com.katorabian.clarcshoplist.domain.pojos.ShopItem
 
 interface ShopListRepository {
 

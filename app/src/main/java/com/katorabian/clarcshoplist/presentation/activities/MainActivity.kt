@@ -1,4 +1,4 @@
-package com.katorabian.clarcshoplist.presentation
+package com.katorabian.clarcshoplist.presentation.activities
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.katorabian.clarcshoplist.R
+import com.katorabian.clarcshoplist.presentation.adapters.ShopListAdapter
+import com.katorabian.clarcshoplist.presentation.viewModels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 

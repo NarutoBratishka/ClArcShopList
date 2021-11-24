@@ -1,4 +1,4 @@
-package com.katorabian.clarcshoplist.presentation
+package com.katorabian.clarcshoplist.presentation.adapters
 
 import android.view.View
 import android.widget.TextView

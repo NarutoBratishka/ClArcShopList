@@ -2,8 +2,8 @@ package com.katorabian.clarcshoplist.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.katorabian.clarcshoplist.domain.ShopItem
-import com.katorabian.clarcshoplist.domain.ShopListRepository
+import com.katorabian.clarcshoplist.domain.pojos.ShopItem
+import com.katorabian.clarcshoplist.domain.interfaces.ShopListRepository
 import java.lang.RuntimeException
 import kotlin.random.Random
 

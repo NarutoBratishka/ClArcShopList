@@ -1,10 +1,11 @@
-package com.katorabian.clarcshoplist.presentation
+package com.katorabian.clarcshoplist.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.katorabian.clarcshoplist.R
-import com.katorabian.clarcshoplist.domain.ShopItem
+import com.katorabian.clarcshoplist.domain.pojos.ShopItem
+import com.katorabian.clarcshoplist.presentation.helpers.ShopItemDiffCallback
 
 class ShopListAdapter: ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCallback()) {
 
