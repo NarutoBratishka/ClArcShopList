@@ -35,12 +35,12 @@ class ShopItemActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_item)
-        parseIntent()
-        viewModel = ViewModelProvider(this).get(ShopItemViewModel::class.java)
-        initView()
-        initTextWatchers()
-        launchCurrentMode()
-        observeViewModels()
+//        parseIntent()
+//        viewModel = ViewModelProvider(this).get(ShopItemViewModel::class.java)
+//        initView()
+//        initTextWatchers()
+//        launchCurrentMode()
+//        observeViewModels()
     }
 
     private fun launchCurrentMode() {
