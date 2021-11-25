@@ -51,11 +51,12 @@ class ShopItemActivity : AppCompatActivity() {
             throw RuntimeException("Unknown screen mode $mode")
 
         screenMode = mode
-        if (screenMode == MODE_EDIT)
+        if (screenMode == MODE_EDIT) {
             if (!intent.hasExtra(EXTRA_SHOP_ITEM_ID))
                 throw RuntimeException("Param extra_shop_item_id is absent")
 
             shopItemID = intent.getIntExtra(EXTRA_SHOP_ITEM_ID, -1)
+        }
     }
     companion object {
         private const val EXTRA_SCREEN_MODE = "extra_mode"
