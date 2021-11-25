@@ -15,79 +15,31 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.katorabian.clarcshoplist.R
 import com.katorabian.clarcshoplist.domain.pojos.ShopItem
+import com.katorabian.clarcshoplist.presentation.fragments.ShopItemFragment
 import com.katorabian.clarcshoplist.presentation.viewModels.ShopItemViewModel
 
 class ShopItemActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: ShopItemViewModel
-
-    private lateinit var tilName: TextInputLayout
-    private lateinit var tilCount: TextInputLayout
-    private lateinit var edName: TextInputEditText
-    private lateinit var edCount: TextInputEditText
-    private lateinit var buttonSave: Button
-
     private var screenMode = MODE_UNKNOWN
     private var shopItemID = ShopItem.UNDEFINED_ID
-
-    private lateinit var textWatcher: TextWatcher
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_item)
-//        parseIntent()
-//        viewModel = ViewModelProvider(this).get(ShopItemViewModel::class.java)
-//        initView()
-//        initTextWatchers()
-//        launchCurrentMode()
-//        observeViewModels()
+        parseIntent()
+        launchCurrentMode()
     }
 
     private fun launchCurrentMode() {
-        when (screenMode) {
-            MODE_EDIT -> launchEditMode()
-            MODE_ADD -> launchAddMode()
-        }
-    }
-
-    private fun observeViewModels() {
-        viewModel.errorInputName.observe(this) {
-            tilName.error = if (it) getString(R.string.error_input_name) else null
-        }
-        viewModel.errorInputCount.observe(this) {
-            tilCount.error = if (it) getString(R.string.error_input_count) else null
-        }
-        viewModel.shouldCloseScreen.observe(this) {
-            finish()
-        }
-    }
-
-    private fun initTextWatchers() {
-        edName.doOnTextChanged { _, _, _, _ ->
-            viewModel.resetErrorInputName()
+        val fragment = when (screenMode) {
+            MODE_EDIT -> ShopItemFragment.newInstanceEditItem(shopItemID)
+            MODE_ADD -> ShopItemFragment.newInstanceAddItem()
+            else -> throw RuntimeException("Unknown screen mode")
         }
 
-        edCount.doOnTextChanged { _, _, _, _ ->
-            viewModel.resetErrorInputCount()
-        }
-    }
-
-    private fun launchEditMode() {
-        viewModel.getShopItem(shopItemID)
-        viewModel.shopItem.observe(this) {
-            edName.setText(it.name)
-            edCount.setText(it.count.toString())
-        }
-
-        buttonSave.setOnClickListener {
-            viewModel.editShopItem(edName.text.toString(), edCount.text.toString())
-        }
-    }
-
-    private fun launchAddMode() {
-        buttonSave.setOnClickListener {
-            viewModel.addShopItem(edName.text.toString(), edCount.text.toString())
-        }
+        supportFragmentManager.beginTransaction()
+            .add(R.id.shop_item_container, fragment)
+            .commit()
     }
 
     private fun parseIntent() {
@@ -105,15 +57,6 @@ class ShopItemActivity : AppCompatActivity() {
 
             shopItemID = intent.getIntExtra(EXTRA_SHOP_ITEM_ID, -1)
     }
-
-    private fun initView() {
-        tilName = findViewById(R.id.til_name)
-        tilCount = findViewById(R.id.til_count)
-        edName = findViewById(R.id.ed_name)
-        edCount = findViewById(R.id.ed_count)
-        buttonSave = findViewById(R.id.save_button)
-    }
-
     companion object {
         private const val EXTRA_SCREEN_MODE = "extra_mode"
         private const val EXTRA_SHOP_ITEM_ID = "extra_shop_item_id"
