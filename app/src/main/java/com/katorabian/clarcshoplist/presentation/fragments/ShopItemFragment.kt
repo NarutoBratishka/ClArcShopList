@@ -13,7 +13,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.katorabian.clarcshoplist.R
 import com.katorabian.clarcshoplist.domain.pojos.ShopItem
-import com.katorabian.clarcshoplist.presentation.activities.MainActivity
 import com.katorabian.clarcshoplist.presentation.viewModels.ShopItemViewModel
 
 class ShopItemFragment : Fragment() {
