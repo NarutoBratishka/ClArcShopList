@@ -3,24 +3,28 @@ package com.katorabian.clarcshoplist.presentation.activities
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.katorabian.clarcshoplist.R
 import com.katorabian.clarcshoplist.presentation.adapters.ShopListAdapter
+import com.katorabian.clarcshoplist.presentation.fragments.ShopItemFragment
 import com.katorabian.clarcshoplist.presentation.viewModels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
+    private var shopItemContainer: FragmentContainerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupRecyclerView()
-
+        shopItemContainer = findViewById(R.id.shop_item_container)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
@@ -28,8 +32,12 @@ class MainActivity : AppCompatActivity() {
 
         val buttonAdd = findViewById<FloatingActionButton>(R.id.button_add_shop_item)
         buttonAdd.setOnClickListener {
-            val intent = ShopItemActivity.newIntentAddItem(this)
-            startActivity(intent)
+
+            if (isOnePaneMode()) {
+                startActivity(ShopItemActivity.newIntentAddItem(this))
+            } else {
+                launchFragment(ShopItemFragment.newInstanceAddItem())
+            }
         }
     }
 
@@ -78,11 +86,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
-            Log.d("qwe: shopItem.onClick", "$it")
 
-            val intent = ShopItemActivity.newIntentEditItem(this, it.id)
-            startActivity(intent)
+            if (isOnePaneMode()) {
+                startActivity(ShopItemActivity.newIntentEditItem(this, it.id))
+            } else {
+                launchFragment(ShopItemFragment.newInstanceEditItem(it.id))
+            }
         }
+    }
+
+    private fun isOnePaneMode(): Boolean {
+        return shopItemContainer == null
+    }
+
+    private fun launchFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.shop_item_container, fragment)
+            .commit()
     }
 
     private fun setupLongClickListener() {
