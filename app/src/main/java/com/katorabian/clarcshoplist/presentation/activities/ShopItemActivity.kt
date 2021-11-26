@@ -27,7 +27,8 @@ class ShopItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shop_item)
         parseIntent()
-        launchCurrentMode()
+        if (savedInstanceState == null)
+            launchCurrentMode()
     }
 
     private fun launchCurrentMode() {
@@ -38,7 +39,7 @@ class ShopItemActivity : AppCompatActivity() {
         }
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.shop_item_container, fragment)
+            .replace(R.id.shop_item_container, fragment)
             .commit()
     }
 
