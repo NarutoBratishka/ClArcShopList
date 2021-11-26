@@ -18,7 +18,7 @@ import com.katorabian.clarcshoplist.domain.pojos.ShopItem
 import com.katorabian.clarcshoplist.presentation.fragments.ShopItemFragment
 import com.katorabian.clarcshoplist.presentation.viewModels.ShopItemViewModel
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private var screenMode = MODE_UNKNOWN
     private var shopItemID = ShopItem.UNDEFINED_ID
@@ -29,6 +29,10 @@ class ShopItemActivity : AppCompatActivity() {
         parseIntent()
         if (savedInstanceState == null)
             launchCurrentMode()
+    }
+
+    override fun onEditingFinished() {
+        finish()
     }
 
     private fun launchCurrentMode() {

@@ -1,7 +1,6 @@
 package com.katorabian.clarcshoplist.presentation.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +13,12 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.katorabian.clarcshoplist.R
 import com.katorabian.clarcshoplist.domain.pojos.ShopItem
-import com.katorabian.clarcshoplist.presentation.activities.ShopItemActivity
+import com.katorabian.clarcshoplist.presentation.activities.MainActivity
 import com.katorabian.clarcshoplist.presentation.viewModels.ShopItemViewModel
 
 class ShopItemFragment : Fragment() {
     private lateinit var viewModel: ShopItemViewModel
+    private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 
     private lateinit var tilName: TextInputLayout
     private lateinit var tilCount: TextInputLayout
@@ -28,6 +28,15 @@ class ShopItemFragment : Fragment() {
 
     private var screenMode = MODE_UNKNOWN
     private var shopItemID = ShopItem.UNDEFINED_ID
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnEditingFinishedListener) {
+            onEditingFinishedListener = context
+        } else {
+            throw RuntimeException("Activity must implement OnEditingFinishedListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +75,7 @@ class ShopItemFragment : Fragment() {
             tilCount.error = if (it) getString(R.string.error_input_count) else null
         }
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressed()
+            onEditingFinishedListener.onEditingFinished()
         }
     }
 
@@ -122,6 +131,11 @@ class ShopItemFragment : Fragment() {
         edName = view.findViewById(R.id.ed_name)
         edCount = view.findViewById(R.id.ed_count)
         buttonSave = view.findViewById(R.id.save_button)
+    }
+
+    interface OnEditingFinishedListener {
+
+        fun onEditingFinished()
     }
 
     companion object {
