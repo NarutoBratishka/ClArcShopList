@@ -52,6 +52,8 @@ class ShopItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(ShopItemViewModel::class.java)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         initTextWatchers()
         launchCurrentMode()
         observeViewModels()
@@ -70,12 +72,6 @@ class ShopItemFragment : Fragment() {
     }
 
     private fun observeViewModels() {
-        viewModel.errorInputName.observe(viewLifecycleOwner) {
-            binding.tilName.error = if (it) getString(R.string.error_input_name) else null
-        }
-        viewModel.errorInputCount.observe(viewLifecycleOwner) {
-            binding.tilCount.error = if (it) getString(R.string.error_input_count) else null
-        }
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
             onEditingFinishedListener.onEditingFinished()
         }
@@ -93,10 +89,6 @@ class ShopItemFragment : Fragment() {
 
     private fun launchEditMode() {
         viewModel.getShopItem(shopItemID)
-        viewModel.shopItem.observe(viewLifecycleOwner) {
-            binding.edName.setText(it.name)
-            binding.edCount.setText(it.count.toString())
-        }
 
         binding.saveButton.setOnClickListener {
             viewModel.editShopItem(binding.edName.text.toString(), binding.edCount.text.toString())
