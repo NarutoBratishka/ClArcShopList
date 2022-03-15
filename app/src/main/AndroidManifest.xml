@@ -11,7 +11,8 @@
         android:theme="@style/Theme.ClArcShopList">
         <activity android:name=".presentation.activities.ShopItemActivity"
             android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".presentation.activities.MainActivity">
+        <activity android:name=".presentation.activities.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
