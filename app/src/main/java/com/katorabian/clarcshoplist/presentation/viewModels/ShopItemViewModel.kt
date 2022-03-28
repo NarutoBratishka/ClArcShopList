@@ -1,5 +1,7 @@
 package com.katorabian.clarcshoplist.presentation.viewModels
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +11,7 @@ import com.katorabian.clarcshoplist.domain.interactors.EditShopItemUseCase
 import com.katorabian.clarcshoplist.domain.interactors.GetShopItemUseCase
 import com.katorabian.clarcshoplist.domain.pojos.ShopItem
 
-class ShopItemViewModel: ViewModel() {
+class ShopItemViewModel(application: Application): AndroidViewModel(application) {
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>
@@ -27,7 +29,7 @@ class ShopItemViewModel: ViewModel() {
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
 
-    private val repository = ShopListRepositoryImpl
+    private val repository = ShopListRepositoryImpl(application)
 
     private val getShopItemUseCase = GetShopItemUseCase(repository)
     private val addShopItemUseCase = AddShopItemUseCase(repository)
