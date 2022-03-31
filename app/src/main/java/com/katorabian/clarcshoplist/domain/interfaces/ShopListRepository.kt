@@ -5,13 +5,13 @@ import com.katorabian.clarcshoplist.domain.pojos.ShopItem
 
 interface ShopListRepository {
 
-    fun addShopItem(item: ShopItem)
-
-    fun editShopItem(item: ShopItem)
-
-    fun getShopItem(id: Int): ShopItem
-
     fun getShopList(): LiveData<List<ShopItem>>
 
-    fun removeShopItem(item: ShopItem)
+    suspend fun addShopItem(item: ShopItem)
+
+    suspend fun editShopItem(item: ShopItem)
+
+    suspend fun getShopItem(id: Int): ShopItem
+
+    suspend fun removeShopItem(item: ShopItem)
 }

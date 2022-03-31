@@ -5,7 +5,7 @@ import com.katorabian.clarcshoplist.domain.interfaces.ShopListRepository
 
 class GetShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
-    fun getShopItem(id: Int): ShopItem {
+    suspend fun getShopItem(id: Int): ShopItem {
         return shopListRepository.getShopItem(id)
     }
 }

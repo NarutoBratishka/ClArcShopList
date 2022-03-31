@@ -5,7 +5,7 @@ import com.katorabian.clarcshoplist.domain.interfaces.ShopListRepository
 
 class RemoveShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
-    fun removeShopItem(item: ShopItem) {
+    suspend fun removeShopItem(item: ShopItem) {
         shopListRepository.removeShopItem(item)
     }
 }
