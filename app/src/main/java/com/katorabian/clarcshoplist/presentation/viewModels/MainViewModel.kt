@@ -20,7 +20,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val removeShopListUseCase = RemoveShopItemUseCase(repository)
     private val editShopListUseCase = EditShopItemUseCase(repository)
 
-    private val scope = CoroutineScope(Dispatchers.IO)
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     val shopList = getShopListUseCase.getShopList()
 

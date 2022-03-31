@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class ShopItemViewModel(application: Application): AndroidViewModel(application) {
 
-    private val scope = CoroutineScope(Dispatchers.IO)
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>
