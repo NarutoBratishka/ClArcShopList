@@ -1,56 +1,44 @@
 package com.katorabian.clarcshoplist.data
 
+import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Transformations
 import com.katorabian.clarcshoplist.domain.pojos.ShopItem
 import com.katorabian.clarcshoplist.domain.interfaces.ShopListRepository
 import java.lang.RuntimeException
-import kotlin.random.Random
 
-object ShopListRepositoryImpl: ShopListRepository {
+class ShopListRepositoryImpl(application: Application): ShopListRepository {
 
-    private val shopListLD = MutableLiveData<List<ShopItem>>()
-    private val shopList = sortedSetOf<ShopItem>({ o1, o2 -> o1.id.compareTo(o2.id) })
-    private var autoIncrementId = 0
+    private val shopListDao: ShopListDao = AppDatabase.getInstance(application).shopListDao()
+    private val mapper = ShopListMapper()
 
-    init {
-        for (i in 0 until 10) {
-            addShopItem(
-                ShopItem("Name $i", i, Random.nextBoolean())
-            )
-        }
+    override suspend fun addShopItem(item: ShopItem) {
+        shopListDao.addShopItem(mapper.mapEntityToDbModel(item))
     }
 
-    override fun addShopItem(item: ShopItem) {
-        if (item.id == ShopItem.UNDEFINED_ID) {
-            item.id = autoIncrementId++
-        }
-        shopList.add(item)
-        updateList()
+    override suspend fun editShopItem(item: ShopItem) {
+        shopListDao.addShopItem(mapper.mapEntityToDbModel(item))
     }
 
-    override fun editShopItem(item: ShopItem) {
-        val oldElem = getShopItem(item.id)
-        removeShopItem(oldElem)
-        addShopItem(item)
+    override suspend fun getShopItem(id: Int): ShopItem {
+        val dbModel = shopListDao.getShopItem(id)
+        return mapper.mapDbModelToEntity(dbModel)
     }
 
-    override fun getShopItem(id: Int): ShopItem {
-        return shopList.find {
-            it.id == id
-        }?: throw RuntimeException("Element with id $id not found")
+    override suspend fun removeShopItem(item: ShopItem) {
+        shopListDao.deleteShopItem(item.id)
     }
 
-    override fun removeShopItem(item: ShopItem) {
-        shopList.remove(item)
-        updateList()
+    override fun getShopList(): LiveData<List<ShopItem>> = Transformations.map(
+        shopListDao.getShopList()
+    ) {
+        mapper.mapListDbModelToListEntity(it)
     }
 
-    override fun getShopList(): LiveData<List<ShopItem>> {
-        return shopListLD
-    }
-
-    private fun updateList() {
-        shopListLD.value = shopList.toList()
-    }
+//    override fun getShopList(): LiveData<List<ShopItem>> = MediatorLiveData<List<ShopItem>>().apply {
+//        addSource(shopListDao.getShopList()) {
+//            value = mapper.mapListDbModelToListEntity(it)
+//        }
+//    }
 }

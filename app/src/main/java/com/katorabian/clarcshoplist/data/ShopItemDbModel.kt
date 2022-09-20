@@ -1,4 +1,4 @@
-package com.katorabian.clarcshoplist
+package com.katorabian.clarcshoplist.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
