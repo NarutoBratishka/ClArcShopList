@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".ShopListApp"
         android:theme="@style/Theme.ShoppingList">
         <activity
             android:name=".presentation.ShopItemActivity"
