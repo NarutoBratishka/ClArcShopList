@@ -110,10 +110,23 @@ class ShopItemFragment : Fragment() {
     private fun launchEditMode() {
         viewModel.getShopItem(shopItemId)
         binding.saveButton.setOnClickListener {
-            viewModel.editShopItem(
-                binding.etName.text?.toString(),
-                binding.etCount.text?.toString()
-            )
+//            viewModel.editShopItem(
+//                binding.etName.text?.toString(),
+//                binding.etCount.text?.toString()
+//            )
+            thread {
+                context?.contentResolver?.update(
+                    Uri.parse("content://com.sumin.shoppinglist/shop_items"),
+                    ContentValues().apply {
+                        put("id", shopItemId)
+                        put("name", binding.etName.text?.toString())
+                        put("count", binding.etCount.text?.toString())
+                        put("enabled", true)
+                    },
+                    null,
+                    null
+                )
+            }
         }
     }
 
