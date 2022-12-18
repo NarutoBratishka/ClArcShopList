@@ -37,15 +37,15 @@ class ShopListProvider: ContentProvider() {
     }
 
     override fun getType(uri: Uri): String? {
-        TODO("Not yet implemented")
+        TODO("Not yet implemented") 
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        TODO("Not yet implemented")
+        TODO("Not yet implemented") 
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
-        TODO("Not yet implemented")
+        TODO("Not yet implemented") 
     }
 
     override fun update(
@@ -54,7 +54,7 @@ class ShopListProvider: ContentProvider() {
         selection: String?,
         selectionArgs: Array<out String>?
     ): Int {
-        TODO("Not yet implemented")
+        TODO("Not yet implemented") 
     }
 
     companion object {
