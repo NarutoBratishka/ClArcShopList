@@ -1,14 +1,15 @@
 package com.sumin.shoppinglist.domain
 
 import androidx.lifecycle.LiveData
+import io.reactivex.rxjava3.core.Completable
 
 interface ShopListRepository {
 
-    suspend fun addShopItem(shopItem: ShopItem)
+    fun addShopItem(shopItem: ShopItem): Completable
 
     suspend fun deleteShopItem(shopItem: ShopItem)
 
-    suspend fun editShopItem(shopItem: ShopItem)
+    fun editShopItem(shopItem: ShopItem): Completable
 
     suspend fun getShopItem(shopItemId: Int): ShopItem
 

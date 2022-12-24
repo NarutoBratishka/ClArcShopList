@@ -8,6 +8,7 @@ import com.sumin.shoppinglist.domain.DeleteShopItemUseCase
 import com.sumin.shoppinglist.domain.EditShopItemUseCase
 import com.sumin.shoppinglist.domain.GetShopListUseCase
 import com.sumin.shoppinglist.domain.ShopItem
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -27,9 +28,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun changeEnableState(shopItem: ShopItem) {
-        viewModelScope.launch {
-            val newItem = shopItem.copy(enabled = !shopItem.enabled)
-            editShopItemUseCase.editShopItem(newItem)
-        }
+        val newItem = shopItem.copy(enabled = !shopItem.enabled)
+        editShopItemUseCase.editShopItem(newItem)
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 }

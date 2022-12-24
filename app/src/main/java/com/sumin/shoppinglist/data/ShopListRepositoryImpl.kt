@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.sumin.shoppinglist.domain.ShopItem
 import com.sumin.shoppinglist.domain.ShopListRepository
+import io.reactivex.rxjava3.core.Completable
 
 class ShopListRepositoryImpl(
     application: Application
@@ -13,16 +14,16 @@ class ShopListRepositoryImpl(
     private val shopListDao = AppDatabase.getInstance(application).shopListDao()
     private val mapper = ShopListMapper()
 
-    override suspend fun addShopItem(shopItem: ShopItem) {
-        shopListDao.addShopItem(mapper.mapEntityToDbModel(shopItem))
+    override fun addShopItem(shopItem: ShopItem): Completable {
+        return shopListDao.addShopItem(mapper.mapEntityToDbModel(shopItem))
     }
 
     override suspend fun deleteShopItem(shopItem: ShopItem) {
         shopListDao.deleteShopItem(shopItem.id)
     }
 
-    override suspend fun editShopItem(shopItem: ShopItem) {
-        shopListDao.addShopItem(mapper.mapEntityToDbModel(shopItem))
+    override fun editShopItem(shopItem: ShopItem): Completable {
+        return shopListDao.addShopItem(mapper.mapEntityToDbModel(shopItem))
     }
 
     override suspend fun getShopItem(shopItemId: Int): ShopItem {

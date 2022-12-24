@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import io.reactivex.rxjava3.core.Completable
 
 @Dao
 interface ShopListDao {
@@ -13,7 +14,7 @@ interface ShopListDao {
     fun getShopList(): LiveData<List<ShopItemDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addShopItem(shopItemDbModel: ShopItemDbModel)
+    fun addShopItem(shopItemDbModel: ShopItemDbModel): Completable
 
     @Query("DELETE FROM shop_items WHERE id=:shopItemId")
     suspend fun deleteShopItem(shopItemId: Int)

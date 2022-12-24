@@ -10,6 +10,10 @@ import com.sumin.shoppinglist.domain.AddShopItemUseCase
 import com.sumin.shoppinglist.domain.EditShopItemUseCase
 import com.sumin.shoppinglist.domain.GetShopItemUseCase
 import com.sumin.shoppinglist.domain.ShopItem
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.functions.Action
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 
 class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
@@ -48,11 +52,13 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
         val count = parseCount(inputCount)
         val fieldsValid = validateInput(name, count)
         if (fieldsValid) {
-            viewModelScope.launch {
-                val shopItem = ShopItem(name, count, true)
-                addShopItemUseCase.addShopItem(shopItem)
-                finishWork()
-            }
+            val shopItem = ShopItem(name, count, true)
+            addShopItemUseCase.addShopItem(shopItem)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    finishWork()
+                }
         }
     }
 
@@ -65,7 +71,11 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
                 viewModelScope.launch {
                     val item = it.copy(name = name, count = count)
                     editShopItemUseCase.editShopItem(item)
-                    finishWork()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe {
+                            finishWork()
+                        }
                 }
             }
         }
