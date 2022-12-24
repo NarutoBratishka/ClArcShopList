@@ -1,6 +1,7 @@
 package com.sumin.shoppinglist.presentation
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,9 +13,11 @@ import com.sumin.shoppinglist.domain.GetShopItemUseCase
 import com.sumin.shoppinglist.domain.ShopItem
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.functions.Action
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -23,6 +26,8 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
     private val getShopItemUseCase = GetShopItemUseCase(repository)
     private val addShopItemUseCase = AddShopItemUseCase(repository)
     private val editShopItemUseCase = EditShopItemUseCase(repository)
+
+    private lateinit var disposable: Disposable
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>
@@ -70,15 +75,22 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
             _shopItem.value?.let {
                 viewModelScope.launch {
                     val item = it.copy(name = name, count = count)
-                    editShopItemUseCase.editShopItem(item)
+                    disposable = editShopItemUseCase.editShopItem(item)
+                        .delay(5, TimeUnit.SECONDS)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe {
                             finishWork()
+                            Log.d("ShopItemViewModel", "editShopItem")
                         }
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable.dispose()
     }
 
     private fun parseName(inputName: String?): String {
