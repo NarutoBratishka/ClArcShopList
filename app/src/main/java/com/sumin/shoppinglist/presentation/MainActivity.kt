@@ -35,6 +35,11 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshShopList()
+    }
+
     override fun onEditingFinished() {
         Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_SHORT).show()
         supportFragmentManager.popBackStack()

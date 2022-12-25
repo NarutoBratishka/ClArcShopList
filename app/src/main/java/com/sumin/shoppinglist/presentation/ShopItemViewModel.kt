@@ -73,7 +73,6 @@ class ShopItemViewModel(application: Application) : AndroidViewModel(application
             _shopItem.value?.let {
                 val item = it.copy(name = name, count = count)
                 val disposable = editShopItemUseCase.editShopItem(item)
-                    .delay(5, TimeUnit.SECONDS)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
