@@ -37,7 +37,11 @@ class ShopListRepositoryImpl(
     override fun getShopList(
         consumer: (data: List<ShopItem>, throwable: Throwable?) -> Unit
     ): Disposable {
-        val disposable = Single.fromCallable { shopListDao.getShopList() }
+        val disposable = Single.fromCallable {
+            shopListDao.getShopList().also {
+                throw RuntimeException()
+            }
+        }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result: List<ShopItemDbModel>?, throwable: Throwable? ->
