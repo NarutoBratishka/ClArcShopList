@@ -11,13 +11,13 @@ import io.reactivex.rxjava3.core.Single
 interface ShopListDao {
 
     @Query("SELECT * FROM shop_items")
-    fun getShopList(): Single<List<ShopItemDbModel>>
+    fun getShopList(): List<ShopItemDbModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addShopItem(shopItemDbModel: ShopItemDbModel): Completable
 
     @Query("DELETE FROM shop_items WHERE id=:shopItemId")
-    fun deleteShopItem(shopItemId: Int): Completable
+    fun deleteShopItem(shopItemId: Int)
 
     @Query("SELECT * FROM shop_items WHERE id=:shopItemId LIMIT 1")
     suspend fun getShopItem(shopItemId: Int): ShopItemDbModel

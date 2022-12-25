@@ -6,6 +6,7 @@ import com.sumin.shoppinglist.domain.ShopItem
 import com.sumin.shoppinglist.domain.ShopListRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -20,8 +21,8 @@ class ShopListRepositoryImpl(
         return shopListDao.addShopItem(mapper.mapEntityToDbModel(shopItem))
     }
 
-    override fun deleteShopItem(shopItem: ShopItem): Completable {
-        return shopListDao.deleteShopItem(shopItem.id)
+    override fun deleteShopItem(shopItem: ShopItem) {
+        shopListDao.deleteShopItem(shopItem.id)
     }
 
     override fun editShopItem(shopItem: ShopItem): Completable {
@@ -36,7 +37,7 @@ class ShopListRepositoryImpl(
     override fun getShopList(
         consumer: (data: List<ShopItem>, throwable: Throwable?) -> Unit
     ): Disposable {
-        val disposable = shopListDao.getShopList()
+        val disposable = Single.fromCallable { shopListDao.getShopList() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result: List<ShopItemDbModel>?, throwable: Throwable? ->

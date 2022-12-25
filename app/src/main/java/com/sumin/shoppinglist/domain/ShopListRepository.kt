@@ -7,7 +7,7 @@ interface ShopListRepository {
 
     fun addShopItem(shopItem: ShopItem): Completable
 
-    fun deleteShopItem(shopItem: ShopItem): Completable
+    fun deleteShopItem(shopItem: ShopItem)
 
     fun editShopItem(shopItem: ShopItem): Completable
 
